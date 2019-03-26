@@ -1,0 +1,345 @@
+Создадим папку alice
+mkdir alice
+Создадим папку bob
+mkdir bob
+Перейдем в папку alice
+cd alice
+В папке alice создадим папку project
+mkdir project
+Перейдем в папку project
+cd project
+Перейдем из папки project на уровень выше — в папку alice
+cd ..
+Перейдем в папку project
+cd project
+Инициализируем репозитарий в текущем каталоге
+git init
+Настроим репозитарий Алисы, чтобы коммиты были от ее имени
+git config user.name 'Alice (ShipilovAV)'
+git config user.email 'alice@example.com'
+Запускаем CodeBlocks и создайте проект в репозитарии Алисы, собираем его.
+Просмотрим состояние рабочей копии
+git status
+
+Вывод:
+On branch master  //на ветке master
+No commits yet   //нет коммитов
+Untracked files:    //неотслеживаемые файлы:                                                            
+  (use "git add ..." to include in what will be committed)  //(используйте “git add”, чтобы включить то, что будет закоммичено)
+bin/     //неотслеживаемый файл 
+main.cpp //неотслеживаемый файл
+obj/  //неотслеживаемый файл                                                                   
+project.cbp   //неотслеживаемый файл          
+nothing added to commit but untracked files present (use "git add" to track) //ничего не добавлено, чтобы коммитить, присутствуют неотслеживаемые файлы (используйте "git add", чтобы отслеживать их)
+
+Добавим файл main.cpp в отслеживаемые (в индекс):
+git add main.cpp
+Просмотрим состояние рабочей копии
+git status
+
+Вывод:
+On branch master  //на ветке master
+No commits yet  //нет коммитов
+Changes to be committed:  //изменения, которые должны быть закоммичены
+  (use "git rm –cached ..."  to unstage) //(используйте “git rm -cached ...”, чтобы убрать из индекса)
+	new file:                   main.cpp  //новый файл: main.cpp
+Untracked files: //неотслеживаемые файлы:  
+  (use "git add ..." to include in what will be committed) //(используйте “git add”, чтобы включить то, что будет закоммичено)
+	bin/  //неотслеживаемый файл      
+	obj/  //неотслеживаемый файл      
+	project.cbp  //неотслеживаемый файл   
+   
+Выполним коммит с файлом main.cpp и коротким сообщением:
+git commit -m 'code: заготовка программы'
+Добавим файл project.cbp в отслеживаемые (в индекс):
+git add project.cbp
+Выполним коммит с файлом main.cpp и темой build:
+git commit -m 'build'
+Заменим тело функции main() на ввод двух чисел:
+cout << "Enter A and B: ";
+int a, b;
+cin >> a >> b;
+Просмотрим состояние рабочей копии
+git status
+
+Вывод:
+On branch master  //на ветке master
+Changes not staged for commit: //изменения не в индексе коммита
+  (use “git add …” to update what will be committed)  //используйте git add, чтобы добавить то, что будет закоммичено
+  (use "git checkout ..." to discard changes in working directory)    //(используйте git checkout, чтобы отменить изменения в рабочем каталоге)
+	modified:                   main.cpp   //изменен main.cpp
+Untracked files:    //неотслеживаемые файлы:  
+  (use "git add ..." to include in what will be committed) //(используйте “git add”, чтобы включить то, что будет закоммичено)
+	bin/
+	obj/
+nothing added to commit //ничего не добавлено, чтобы коммитить
+(use "git add" and/or "git commit -a") //(используйтесь “git add” и/или “git commit -a”)
+
+Выберем файл, изменение которого должно войти в коммит
+git add  main.cpp
+Сделаем коммит
+git commit -m "Ввод двух чисел"
+В тело функции main() добавим cout << "A + B = " << a + b << '\n';
+Добавим в индекс все изменения
+git add -u
+Сделаем коммит
+git commit -m "Вывод суммы"
+Изменим тело функции main(), добавим << "A - B = " << a - b << '\n';
+Добавим все изменения в индекс и сделаем коммит в один шаг
+git commit -a -m "Вывод суммы и разности"
+Создадим в CodeBlocks новый файл и запишем в него строку: /bin
+Сохраним файл в корне репозитарий под именем .gitignore
+Просмотрим состояние рабочей копии
+git status
+Каталог bin не отображается
+В файл, где записан /bin, на следующей строчке запишем /obj
+Сохраним изменения
+Просмотрим состояние рабочей копии
+git status
+Каталог obj не отображается
+Выберем файл, изменение которого должно войти в коммит
+git add .gitignore
+Сделаем коммит с темой git
+git commit -m "git"
+Просмотрим журнал репозитария
+git log –stat
+
+Вывод для последнего коммита:
+commit 9474702dedd88b73301800081be7639c5cfa6783   //хэш коммита
+Author: Alice (ShipilovAV) < alice@example.com >   //автор коммита
+Date:   Sun Mar 24 19:08:50 2019 +0300   //время, когда сделан коммит
+    git
+ .gitignore | 4 ++++     //4 вставки
+ 1 file changed, 4 insertions(+)    //1 файл изменен, 4 вставки
+
+Просмотрим коммиты (компактно) 
+git log --oneline --decorate
+Просмотрим коммиты (компактно) для всех веток
+git log --oneline --decorate --all --graph
+Найдем коммиты по теме build
+git log --grep "build"
+Найдем коммиты, затрагивающие project.cbp
+git log -- project.cbp
+Просмотрим предпоследний коммит 1 способом
+git show HEAD~1
+
+Вывод:
+commit 7a9e6b4646bce7b31fa6de8fc144c37eef33c9bb  //хэш коммита
+Author: Alice (ShipilovAV) <alice@example.com >    //автор коммита
+Date:   Sun Mar 24 19:07:20 2019 +0300  //время, когда сделан коммит
+    Вывод суммы и разности //комментарий к коммиту
+diff --git a/main.cpp b/main.cpp //просмотр различий между версиями
+index b2f34ce..c70e10f 100644  //индекс
+--- a/main.cpp  //заголовок
++++ b/main.cpp  //заголовок
+@@ -7,5 +7,6 @@ int main()   //  изменений места изменений в файле, измененная функция
+ cout << "Enter A and B: ";   //контекст
+ int a, b;   //контекст
+ cin >> a >> b;   //контекст
+-cout << "A + B = " << a + b << '\n'; //удаленная строка
++cout << "A + B = " << a + b << '\n' //добавленная строка
++<< "A - B = " << a - b << '\n'; //добавленная строка
+ } //контекст
+
+Просмотрим предпоследний коммит 2 способом
+git show master HEAD~1
+Просмотрим предпоследний коммит 3 способом
+git show 7a9e6b4646bce7b31fa6de8fc144c37eef33c9bb
+Внесем изменения в main.cpp: добавим << "A * B = " << a * b << '\n';
+Просмотрим изменения в рабочей копии:
+git diff
+
+Вывод:
+diff --git a/main.cpp b/main.cpp //просмотр различий между версиями
+index c70e10f..666764d 100644  //индекс
+--- a/main.cpp   //заголовок
++++ b/main.cpp   //заголовок
+@@ -8,5 +8,6 @@ cout << "Enter A and B: ";  //обозначение места изменений в файле, измененная функция
+ int a, b;    //контекст
+ cin >> a >> b;    //контекст
+ cout << "A + B = " << a + b << '\n'    //контекст
+-<< "A - B = " << a - b << '\n';  //удаленная строка
++<< "A - B = " << a - b << '\n'   //добавленная строка
++<< "A * B = " << a * b << '\n';    //добавленная строка
+ }   //контекст
+
+Просмотрим изменения между самым первым коммитом и коммитом, добавляющим вывод разности
+git diff HEAD~5 HEAD~1
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит с темой git
+git commit -m "Вывод произведения"
+Отменим последний коммит
+git reset --hard HEAD~1
+Добавим над функцией main() комментарий: // you may type whatever you want
+Уберем изменения в main.cpp, откатив этот файл к состоянию в последнем коммите (HEAD):
+git checkout HEAD -- main.cpp
+Передадим на Github
+git remote add origin https://github.com/ShipilovAV/cs-lab02
+git push -u origin master
+Отобразим адрес, который использовался в команде git remote add
+git remote -v
+Откроем новый терминал Git Bash в каталоге bob. Клонируем проект
+git clone https://github.com/ShipilovAV/cs-lab02
+Перейдем в каталог проекта «на машине Боба» 
+cd project
+Инициализируем репозитарий в текущем каталоге
+git init
+Настроим репозитарий Боба, чтобы коммиты были от его имени
+git config user.name 'Bob (ShipilovAV)'
+git config user.email 'bob@example.com' 
+«На машине Боба» добавим в программу печать произведения чисел
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит
+git commit -m "Вывод произведения"
+Просмотрим последний коммит
+git show HEAD
+Отправим коммит на GitHub
+git push
+«На машине Алисы» выполним загрузку изменений
+git fetch
+Просмотрим историю всех веток
+git log --oneline --decorate --all --graph
+Продвинем ветку master к скачанной версии
+git pull --ff-only
+«От имени Алисы» добавим в программу печать деления
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит
+git commit -m "Вывод деления"
+Просмотрим последний коммит
+git show HEAD
+Отправим коммит на GitHub
+git push
+«На машине Боба» выполним загрузку изменений
+git fetch
+Просмотрим историю всех веток
+git log --oneline --decorate --all --graph
+Продвинем ветку master к скачанной версии
+git pull --ff-only
+«На машине Алисы» дополним программу печатью максимума
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит
+git commit -m "Вывод максимума"
+Просмотрим последний коммит
+git show HEAD
+Отправим коммит на GitHub
+git push
+«На машине Боба» дополним программу печатью минимума
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит
+git commit -m "Вывод минимума"
+Просмотрим последний коммит
+git show HEAD
+Попытаемся отправить коммит на GitHub
+git push
+Удаленный репозитарий не принимает изменений: коммит Боба основан не на последнем существующем коммите
+«На машине Боба» выполним загрузку изменений
+git fetch
+Просмотрим историю всех веток
+git log --oneline --decorate --all –graph
+
+Вывод:
+* 726a721 (HEAD, master) Вывод минимума
+| * 7c1af90 (origin/master, origin/HEAD) Вывод максимума
+|/  
+* f8a5119 Вывод деления
+* 1d2818a Вывод произведения
+* 9474702 git
+* 7a9e6b4 Вывод суммы и разности
+* 2d54d98 Вывод суммы
+* 2b37afa Ввод двух чисел
+* 6fdd2bc build
+* c50575d code: заготовка программы
+
+Переместим коммит Боба поверх коммита Алисы, то есть поверх origin/master
+git rebase origin/master
+«На машине Боба» в CodeBlocks место конфликта будет отмечено прямо в коде:
+<<<<<<< HEAD
+if (a > b) cout << "max = " << a << '\n';
+else cout << "max = " << b << '\n';
+=======
+if (a > b) cout << "min = " << b << '\n';
+else cout << "min = " << a << '\n';
+>>>>>>> Вывод минимума
+
+Удалим метки конфликта: <<<< ..., ... >>>> и =====
+Добавим файл в индекс
+git add main.cpp
+Продолжим прерванную операцию rebase
+git rebase --continue
+Вид хранилища:
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+cout << "Enter A and B: ";
+int a, b;
+cin >> a >> b;
+cout << "A + B = " << a + b << '\n'
+<< "A - B = " << a - b << '\n'
+<< "A * B = " << a * b << '\n'
+<< "A / B = " << a / b << '\n';
+if (a > b) cout << "max = " << a << '\n';
+else cout << "max = " << b << '\n';
+if (a > b) cout << "min = " << b << '\n';
+else cout << "min = " << a << '\n';
+}
+
+Отправим изменения на GitHub
+git push
+“На машине Алисы cоздадим ветку double
+git branch double
+Переключимся на нее
+git checkout double
+Заменим тип переменных a и b на double
+Выберем файл, изменение которого должно войти в коммит
+git add main.cpp
+Сделаем коммит
+git commit -m "новый тип"
+Переключимся на ветку master
+git checkout master
+«На машине Alice» выполним загрузку изменений
+git fetch
+Продвинем ветку master к скачанной версии
+git pull --ff-only
+Просмотрим историю всех веток
+git log --oneline --decorate --all –graph
+
+Вывод:
+* bc81c6e (double) новый тип
+| * 868be19 (HEAD, origin/master, master) Вывод минимума
+|/  
+* 7c1af90 Вывод максимума
+* f8a5119 Вывод деления
+* 1d2818a Вывод произведения
+* 9474702 git
+* 7a9e6b4 Вывод суммы и разности
+* 2d54d98 Вывод суммы
+* 2b37afa Ввод двух чисел
+* 6fdd2bc build
+* c50575d code: заготовка программы
+
+Сольем ветку double в master
+git merge double
+В результате слияния образуется специальный новый коммит (merge commit), к которому Git предлагает написать сообщение в редакторе
+Просмотрим историю всех веток
+git log --oneline --decorate --all –graph
+
+Вывод:
+* bc81c6e (double) новый тип
+| * 868be19 (HEAD, origin/master, master) Вывод минимума
+* 7c1af90 Вывод максимума
+* f8a5119 Вывод деления
+* 1d2818a Вывод произведения
+* 9474702 git
+* 7a9e6b4 Вывод суммы и разности
+* 2d54d98 Вывод суммы
+* 2b37afa Ввод двух чисел
+* 6fdd2bc build
+* c50575d code: заготовка программы
